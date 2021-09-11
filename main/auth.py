@@ -14,8 +14,7 @@ def logout(request):
 def login(request):
     
     if request.method == "POST":
-        print(request.POST['username'])
-        print(request.POST['password'])
+        
         user = User.objects.filter(username=request.POST['username'])
         if user:
             log_user = user[0]

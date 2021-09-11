@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block titulo %}Crear Viaje{% endblock %}
+
+{%block estilos%}
+    <style>
+        .body-background {
+            height: 100vh;
+            background-image: linear-gradient(to right top, #be2b45, #c9005e, #c40087, #a300bd, #0812f8)!important;
+        }
+
+        .card {
+            width: 400px;
+            border: none
+        }
+
+        .form-control {
+            height: 45px;
+            border-radius: 10px
+        }
+
+        .form-control:focus {
+            box-shadow: none
+        }
+
+        .btn-signup {
+            height: 50px;
+            border-radius: 10px
+        }
+    </style>
+{% endblock %}
+
+{% block contenido %}
+        <div class="body-background">
+            <div class="container-fluid d-flex justify-content-center align-items-center h-100">
+                <form method="POST" action="/addtrip" class="row g-3 mx-3">
+                    {% csrf_token %}
+                    <div class="card p-3 text-center py-4">
+                        <h4>Agrega un viaje</h4>
+                        <div class="input-group px-3 mt-3"> 
+                            <input type="text" class="form-control" name="destino" placeholder="Destino" aria-label="Username"> <span></span> 
+                        </div>
+                        <div class="input-group px-3 mt-3">
+                        <input type="datetime-local" class="form-control" name="fecha_partida" placeholder="Fecha Partida" aria-label="Server"> 
+                        </div>
+                        <div class="input-group px-3 mt-3">
+                            <input type="datetime-local" class="form-control" name="fecha_salida" placeholder="Fecha Salida" aria-label="Server"> 
+                        </div>
+                        <div class="input-group px-3 mt-3"> 
+                            <input type="text" class="form-control" name="plan" placeholder="Plan" aria-label="Username"> <span></span> 
+                        </div>
+                        <div class="mt-3 d-grid px-3"> 
+                            <button type="submit" class="btn btn-primary btn-block btn-signup text-uppercase"> <span>Crear viaje</span> </button> 
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script>
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true,
+            }
+        
+            {% if messages %}
+                {% for message in messages %}
+                toastr.{{message.tags }}("{{ message }}")
+                {% endfor %}
+            {% endif %}
+        
+            {% block libreria %}
+            {% endblock %} 
+        </script>
+{% endblock %}
