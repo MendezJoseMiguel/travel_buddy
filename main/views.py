@@ -21,3 +21,28 @@ def travels(request):
     }
     return render(request, 'index.html', context)
 
+@login_required
+def addtrip(request):
+
+
+
+    pass
+
+@login_required
+def viewtrip(request,id):
+
+    ver_viaje = Viajes.objects.filter(id=id)[0]
+    context = {
+
+        'ver_viaje': ver_viaje
+    }
+    return render(request, 'verviaje.html', context)
+
+@login_required
+def destroytrip(request,id):
+    pass
+
+@login_required
+def canceltrip(request,id):
+    pass
+    

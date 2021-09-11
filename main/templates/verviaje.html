@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block titulo %}INDEX USUARIO{% endblock %}
+
+{% block contenido %}
+
+    <div class="row">
+        <div class="col-8 offset-2">
+            
+                <h2>{{ver_viaje.destino}}</h2><br>
+                <h3>{{ver_viaje.creater.name}}</h3><br>
+                <h3>{{ver_viaje.fecha_partida}}</h3><br>
+                <h3>{{ver_viaje.fecha_salida}}</h3><br>
+            
+        </div>
+        <div class="col-8 offset-2">
+            <h2>Otros Viajeros en este Destino</h2>
+
+            {% for viajero in ver_viaje.travellers.all %}
+
+                <h3>{{viajero.name}}</h3>
+
+            {% endfor %}
+
+        </div>
+    </div>
+
+
+{% endblock %}

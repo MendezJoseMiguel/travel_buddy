@@ -6,4 +6,8 @@ urlpatterns = [
     path('login', auth.login),
     path('logout', auth.logout),
     path('travels', views.travels),
+    path('addtrip', views.addtrip),
+    path('view/<id>',views.viewtrip),
+    path('viaje/<id>/destroy', views.destroytrip),
+    path('canceltrip', views.canceltrip)
 ]

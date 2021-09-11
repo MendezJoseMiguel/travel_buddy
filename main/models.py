@@ -56,14 +56,14 @@ class Viajes(models.Model):
     fecha_partida = models.DateTimeField()
     fecha_salida = models.DateTimeField()
     plan = models.CharField(max_length=255)
-    viajeros = models.ManyToManyField(User, related_name="viajeros")
-    creador = models.ForeignKey(User,related_name = "creador", on_delete=models.CASCADE)
+    travellers = models.ManyToManyField(User, related_name="viajeros")
+    creater = models.ForeignKey(User,related_name = "creador", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.destino}: {self.viajeros}:{self.creador}"
+        return f"{self.destino}: {self.travellers}:{self.creater}"
 
     def __repr__(self):
-        return f"{self.destino}: {self.viajeros}:{self.creador}"
+        return f"{self.destino}: {self.travellers}:{self.creater}"
 
