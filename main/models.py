@@ -1,5 +1,6 @@
 from django.db import models
 import re
+from datetime import date
 
 # Create your models here.
 class UserManager(models.Manager):
@@ -30,6 +31,27 @@ class UserManager(models.Manager):
         
         return errors
 
+class ViajesManager(models.Manager):
+    def validador_basico(self, postData):
+
+        errors = {}
+
+        fecha_actual = date.today().strftime('%Y-%m-%d')
+
+        if len(postData['destino']) < 1:
+            errors['destino'] = "El Destino es un campo requerido"
+
+        if len(postData['plan']) < 1:
+            errors['plan'] = "El Plan es un campo requerido"
+
+        if postData['fecha_partida'] < fecha_actual:    
+            errors["fecha_partida"] ="La Fecha de Partida debe ser igual o superior a la fecha actual"
+            
+        if postData['fecha_partida'] > postData['fecha_salida']:    
+            errors["fecha_partida"] ="La Fecha de Llegada no puede ser inferior a la fecha de partida"
+        
+        return errors
+
 
 class User(models.Model):
     CHOICES = (
@@ -53,13 +75,14 @@ class User(models.Model):
 
 class Viajes(models.Model):
     destino = models.CharField(max_length=255)
-    fecha_partida = models.DateTimeField()
-    fecha_salida = models.DateTimeField()
+    fecha_partida = models.DateField()
+    fecha_salida = models.DateField()
     plan = models.CharField(max_length=255)
     travellers = models.ManyToManyField(User, related_name="viajeros")
     creater = models.ForeignKey(User,related_name = "creador", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    objects = ViajesManager()
 
     def __str__(self):
         return f"{self.destino}: {self.travellers}:{self.creater}"

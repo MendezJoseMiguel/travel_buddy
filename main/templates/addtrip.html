@@ -41,10 +41,10 @@
                             <input type="text" class="form-control" name="destino" placeholder="Destino" aria-label="Username"> <span></span> 
                         </div>
                         <div class="input-group px-3 mt-3">
-                        <input type="datetime-local" class="form-control" name="fecha_partida" placeholder="Fecha Partida" aria-label="Server"> 
+                        <input type="date" value="{{fecha_actual}}" class="form-control" name="fecha_partida" placeholder="Fecha Partida" aria-label="Server" required> 
                         </div>
                         <div class="input-group px-3 mt-3">
-                            <input type="datetime-local" class="form-control" name="fecha_salida" placeholder="Fecha Salida" aria-label="Server"> 
+                            <input type="date" value="{{fecha_actual}}" class="form-control" name="fecha_salida" placeholder="Fecha Salida" aria-label="Server" required> 
                         </div>
                         <div class="input-group px-3 mt-3"> 
                             <input type="text" class="form-control" name="plan" placeholder="Plan" aria-label="Username"> <span></span> 
@@ -64,11 +64,10 @@
         
             {% if messages %}
                 {% for message in messages %}
-                toastr.{{message.tags }}("{{ message }}")
+                    toastr.{{ message.tags }}("{{ message }}")
                 {% endfor %}
             {% endif %}
         
-            {% block libreria %}
-            {% endblock %} 
+            
         </script>
 {% endblock %}

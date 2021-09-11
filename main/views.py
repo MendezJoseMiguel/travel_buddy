@@ -4,6 +4,7 @@ import bcrypt
 from .decorators import login_required
 from django.http import HttpResponseRedirect
 from .models import Viajes, User
+from datetime import date
 
 
 @login_required
@@ -30,18 +31,37 @@ def travels(request):
 def addtrip(request):
 
     if request.method == "GET":
+        fecha_actual= date.today().strftime('%Y-%m-%d')
+
+        context = {
+
+            "fecha_actual": fecha_actual
+
+        }
 
         return render(request, 'addtrip.html')
 
-    else:
+    if request.method =='POST':
 
-        viaje_nuevo = Viajes.objects.create(
-                    destino = request.POST['destino'],
-                    fecha_partida = request.POST['fecha_partida'],
-                    fecha_salida=request.POST['fecha_salida'],
-                    plan = request.POST['plan'],
-                    creater_id=request.session['user']['id']
-                )
+        errors = Viajes.objects.validador_basico(request.POST)
+
+        if len(errors) > 0:
+
+            for key, value in errors.items():
+                messages.error(request, value)
+            return redirect('/addtrip')
+
+        else:
+
+        
+
+            viaje_nuevo = Viajes.objects.create(
+                        destino = request.POST['destino'],
+                        fecha_partida = request.POST['fecha_partida'],
+                        fecha_salida=request.POST['fecha_salida'],
+                        plan = request.POST['plan'],
+                        creater_id=request.session['user']['id']
+                    )
 
     return redirect("/travels")
 
@@ -62,7 +82,14 @@ def viewtrip(request,id):
 def destroytrip(request,id):
 
     destroy_trip = Viajes.objects.get(id=id)
-    destroy_trip.delete()
+    traveller = request.session['user']['id']
+    if traveller == destroy_trip.creater.id:
+
+        destroy_trip.delete()
+        messages.warning(request, "¡Has Eliminado el viaje seleccionado!")
+
+    else:
+        messages.error(request, "¡Solo puedes los Viajes que has Creado!")
     
     return redirect("/travels")
 
@@ -71,6 +98,7 @@ def canceltrip(request,id):
     trip_cancel = Viajes.objects.get(id=id)
     traveller = request.session['user']['id']
     trip_cancel.travellers.remove(traveller)
+    messages.warning(request, "Ups!, ¡parece que ya no quieres viajar!")
     
     return redirect("/")
     
@@ -80,4 +108,5 @@ def join_travel(request,id):
     trip_join = Viajes.objects.get(id=id)
     traveller = request.session['user']['id']
     trip_join.travellers.add(traveller)
+    messages.success(request,"Yeah!, ¡Vamos de Viaje!")
     return redirect("/")
