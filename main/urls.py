@@ -10,5 +10,5 @@ urlpatterns = [
     path('view/<id>',views.viewtrip),
     path('viaje/<id>/destroy', views.destroytrip),
     path('canceltrip/<id>', views.canceltrip),
-    path('join_travel',views.join_travel)
+    path('join_travel/<id>',views.join_travel)
 ]
