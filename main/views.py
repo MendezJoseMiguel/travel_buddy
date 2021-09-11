@@ -68,8 +68,11 @@ def destroytrip(request,id):
 
 @login_required
 def canceltrip(request,id):
-
-    pass
+    trip_cancel = Viajes.objects.get(id=id)
+    traveller = request.session['user']['id']
+    trip_cancel.travellers.remove(traveller)
+    
+    return redirect("/")
     
 @login_required
 def join_travel(request,id):

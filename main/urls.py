@@ -9,6 +9,6 @@ urlpatterns = [
     path('addtrip', views.addtrip),
     path('view/<id>',views.viewtrip),
     path('viaje/<id>/destroy', views.destroytrip),
-    path('canceltrip', views.canceltrip),
+    path('canceltrip/<id>', views.canceltrip),
     path('join_travel',views.join_travel)
 ]
