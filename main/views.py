@@ -18,9 +18,10 @@ def travels(request):
     no_id_traveller = request.session['user']['id']
     viajeros_full = Viajes.objects.all()
     viajeros_yes = viajeros_full.exclude(travellers = no_id_traveller )
+    viajes_propios = viajeros_full.filter(travellers = no_id_traveller)
 
     context = {
-        'viajes': viajes,
+        'viajes_propios': viajes_propios,
         'viajeros_yes': viajeros_yes
     }
     return render(request, 'index.html', context)
@@ -56,9 +57,17 @@ def viewtrip(request,id):
 
 @login_required
 def destroytrip(request,id):
-    pass
+
+    destroy_trip = Viajes.objects.get(id=id)
+    destroy_trip.delete()
+    
+    return redirect("/travels")
 
 @login_required
 def canceltrip(request,id):
+    
     pass
     
+@login_required
+def join_travel(request,id):
+    pass
