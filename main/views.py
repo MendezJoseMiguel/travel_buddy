@@ -49,9 +49,12 @@ def addtrip(request):
 def viewtrip(request,id):
 
     ver_viaje = Viajes.objects.filter(id=id)[0]
+    creador = ver_viaje.creater.id
+    viajeros = ver_viaje.travellers.exclude(id = creador)
     context = {
 
-        'ver_viaje': ver_viaje
+        'ver_viaje': ver_viaje,
+        'viajeros' : viajeros
     }
     return render(request, 'verviaje.html', context)
 
@@ -65,7 +68,7 @@ def destroytrip(request,id):
 
 @login_required
 def canceltrip(request,id):
-    
+
     pass
     
 @login_required
