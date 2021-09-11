@@ -53,8 +53,6 @@ def addtrip(request):
 
         else:
 
-        
-
             viaje_nuevo = Viajes.objects.create(
                         destino = request.POST['destino'],
                         fecha_partida = request.POST['fecha_partida'],
@@ -62,6 +60,8 @@ def addtrip(request):
                         plan = request.POST['plan'],
                         creater_id=request.session['user']['id']
                     )
+            creater_id = User.objects.get(id=request.session['user']['id'])
+            viaje_nuevo.travellers.add(creater_id)
 
     return redirect("/travels")
 
